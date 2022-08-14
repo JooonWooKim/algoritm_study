@@ -3,32 +3,18 @@ package programmers;
 import java.util.*;
 
 public class kakao2022_singo {
-    public int[] solution(String[] id_list, String[] report, int k) {
-        int[] answer = new int[id_list.length];
-        Map<String, HashSet<String>> map = new HashMap<>();
-        Map<String, Integer>idxMap = new HashMap<>();
+    class Solution {
+        public int[] solution(String[] id_list, String[] report, int k) {
+            //report는
+            //k는 신고 횟수
+            int[] answer = new int[id_list.length];         //처리 결과 메일을 받은 횟수
+            HashMap<String, Integer> idMap = new LinkedHashMap<>(); //유저별 순서저장
+            Map<String, HashSet<String>> Map = new HashMap<>(); //유저별 자신을 신고한 유저
 
-        for(int i = 0; i< id_list.length; i++){
-            String name = id_list[i];
-            map.put(name, new HashSet<>());
-            idxMap.put(name, i);
-        }
+            for (int i = 0; i < id_list.length; i++) {
+                idMapid_list[i];
 
-        for (String s: report) {
-            String[] str = s.split("");
-            String from  = str[0];
-            String to = str[1];
-            map.get(to).add(from);
-        }
-
-        for (int i = 0; i < id_list.length; i++) {
-            HashSet<String> send = map.get(id_list[i]);
-            if(send.size()>=k){
-                for (String name:send) {
-                    answer[idxMap.get(name)]++;
-                }
             }
+            return answer;
         }
-        return answer;
     }
-}
