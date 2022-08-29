@@ -1,26 +1,41 @@
 package programmers;
 
+import java.util.Arrays;
+
 class Solution36 {
     public int solution(int n, int[] lost, int[] reserve) {
-//        여벌 체육복이 있는 학생이 이들에게 체육복을 빌려주려 합니다.
-//        학생들의 번호는 체격 순으로 매겨져 있어,
-//        바로 앞번호의 학생이나 바로 뒷번호의 학생에게만 체육복을 빌려줄 수 있습니다.
-//        전체 학생의 수 n,
-//        체육복을 도난당한 학생들의 번호가 담긴 배열 lost,
-//        여벌의 체육복을 가져온 학생들의 번호가 담긴 배열 reserve가 매개변수로 주어질 때,
-//        체육수업을 들을 수 있는 학생의 최댓값을 return 하도록 solution 함수를 작성해주세요.
+//      순차적으로 배열을 비교할 수 있게 정렬한다.
+//      여벌 체육복을 가져온 학생이 도난당한 경우, 체육복을 빌려줄 수 없기 때문에 reserve배열에서 제외
+//        reserve[j]의 값을 -1로 변경
+//        lost[i]의 값도 -1로 변경해 도난당한 대상에서 제외한다.
+//      여벌 체육복을 가져온 학생이 자기번호의 앞,뒤 학생에게 체육복을 빌려준다.
+//        lost[i]-1 == reserve[j] 또는 lost[i]+1 == reserve[j]
+//        reserve[j]의 값을 -1로 변경
 
-//        1.체육복을 빌릴수있는 상황은 체육복을 갖고있는 학생이 잃어버린 학생의 뒷 번호일 경우에
-        int answer = 0;
-        int have = 0;
+        int answer = n-lost.length;
 
-        //lost[i]가  reserve[lost[i]+1]가 체육복이 있을경우에
-        for (int i = 0; i < n; i++) {
+        Arrays.sort(lost);
+        Arrays.sort(reserve);
 
+        //여벌 체육복을 가져온 학생이 도난당한 경우
+        for (int i = 0; i < lost.length; i++) {
+            for (int j = 0; j < reserve.length; j++) {
+                if(lost[i] == reserve[j]){
+                    answer++;
+                    lost[i] = -1;
+                    reserve[j] = -1;
+                    break;
+                }
+            }
         }
-        for (int i = 0; i <=n ; i++) {
-            if(lost[i] == reserve[i]){
-                answer++;
+        //도난당한 학생에게 체육복을 빌려주는 경우
+        for (int i = 0; i <lost.length ; i++) {
+            for (int j = 0; j < reserve.length; j++) {
+                if((lost[i]-1 == reserve[j]) || (lost[i]+1 == reserve[j])){
+                    answer++;
+                    reserve[j] = -1;
+                    break;
+                }
             }
         }
         return answer;
